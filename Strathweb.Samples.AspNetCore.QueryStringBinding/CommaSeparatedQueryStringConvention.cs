@@ -7,11 +7,18 @@ namespace Strathweb.Samples.AspNetCore.QueryStringBinding
     {
         public void Apply(ActionModel action)
         {
+            SeparatedQueryStringAttribute attribute = null;
             foreach (var parameter in action.Parameters)
             {
-                if (parameter.Attributes.OfType<CommaSeparatedAttribute>().Any() && !parameter.Action.Filters.OfType<SeparatedQueryStringAttribute>().Any())
+                if (parameter.Attributes.OfType<CommaSeparatedAttribute>().Any())
                 {
-                    parameter.Action.Filters.Add(new SeparatedQueryStringAttribute(parameter.ParameterName, ","));
+                    if (attribute == null)
+                    {
+                        attribute = new SeparatedQueryStringAttribute(",");
+                        parameter.Action.Filters.Add(attribute);
+                    }
+
+                    attribute.AddKey(parameter.ParameterName);
                 }
             }
         }
