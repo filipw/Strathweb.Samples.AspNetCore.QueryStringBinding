@@ -8,9 +8,7 @@ namespace Strathweb.Samples.AspNetCore.QueryStringBinding
     {
         private readonly SeparatedQueryStringValueProviderFactory _factory;
 
-        public SeparatedQueryStringAttribute() : this(",")
-        {
-        }
+        public SeparatedQueryStringAttribute() : this(",") { }
 
         public SeparatedQueryStringAttribute(string separator)
         {
@@ -24,11 +22,17 @@ namespace Strathweb.Samples.AspNetCore.QueryStringBinding
 
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
+
         }
 
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
             context.ValueProviderFactories.Insert(0, _factory);
+        }
+
+        public void AddKey(string key)
+        {
+            _factory.AddKey(key);
         }
     }
 }
